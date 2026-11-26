@@ -15,13 +15,15 @@ Files are never replaced after release; a changed model gets a new release.
 | `content-search-4` | `siglip2_base_patch16_224_image_fp16.onnx`, `labels_v3.bin` | The same files as `content-search-3` | as there |
 | `content-search-4` | `siglip2_base_patch16_224_text_int8x.onnx` | Text tower of SigLIP 2 B/16-224 in ONNX, dynamically quantised to int8 except layer 0's MLP fc2, kept in float32 (int64 input `input_ids` 1×64, output `pooler_output` 768-d) | Apache-2.0, modified |
 | `content-search-4` | `siglip2_tokenizer_v1.bin` | SigLIP 2's tokenizer (Gemma's byte-fallback BPE) in a compact binary form; see below | Apache-2.0, derived |
+| `content-search-5` | `siglip2_base_patch16_224_image_fp16.onnx`, `siglip2_base_patch16_224_text_int8x.onnx`, `siglip2_tokenizer_v1.bin` | The same files as `content-search-4` | as there |
+| `content-search-5` | `labels_v4.bin` | `labels_v3.bin` without collage, comic strip, pattern, stereo and clip art: 1,432 tags | Apache-2.0, derived |
 
 Each release includes its models' licence texts and notices. The face models are redistributed
 unchanged. The SigLIP 2 files are modified, as each release's `NOTICE.txt` describes.
 
 ## Label file format
 
-Little-endian: `SCRYLBL2` (`labels_v3.bin`), then int32 version, count and dimensions, float32 logit scale
+Little-endian: `SCRYLBL2` (`labels_v3.bin`, `labels_v4.bin`), then int32 version, count and dimensions, float32 logit scale
 (already exponentiated) and logit bias; for each label three strings (name, parent, exclusion group; empty
 for none), each a uint16 byte length followed by UTF-8, and a float32 threshold (the cosine a photo must
 reach); then `count × dimensions` float32 vectors. `SCRYLBL1` (`labels_v2.bin`) is the same without
